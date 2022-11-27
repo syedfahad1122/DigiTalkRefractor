@@ -82,7 +82,7 @@ class StoreUserRequest extends FormRequest
  </ul>
   
   
-  
+  ##### Note Which is mandatory in coding Part Of section we are using random code for refracting like pesoudo code for how we are making multiple events , services  , Ques for notification Thanks.
   
   
   
