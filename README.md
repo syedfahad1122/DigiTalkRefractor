@@ -63,14 +63,23 @@ class StoreUserRequest extends FormRequest
   #### 8.Observers We have to Use Observer TO Send Email as the Eloquent of Booking of User Update It Immediately Fired Events.
   
   ##### Conclusion
-  
+  ### Good To have This
   <ul>
   <li> <b> We Should Make Seperate Service In BookingRepository For Every Action. </b> </li>
   <li> <b> For Every Service there should Be Action Agains Service </b> </li>
   <li> <b> We Should Use Observer For Sending Emails / SMS </b> </li>
-  <li> <b> We Should Use Models Or Defined Every Attribute </b> </li>
   <li> <b> There Should Be A Proper Validation Inside Controller For Against Every action / authorization </b> </li>
+  <li> <b> Method must not be greate then 5 to 6 lines </b> </li>
+  </ul>
   </b>
+  
+  #### Bad In LeetCode
+   <ul>
+  <li> <b> Events Used which is Good </b> </li>
+  <li> <b> Repository Patteren used </b> </li>
+  <li> <b> Function name is according to function Behaviour </b> </li>
+ </ul>
+  
   
   
   
