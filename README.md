@@ -70,6 +70,7 @@ class StoreUserRequest extends FormRequest
   <li> <b> We Should Use Observer For Sending Emails / SMS </b> </li>
   <li> <b> There Should Be A Proper Validation Inside Controller For Against Every action / authorization </b> </li>
   <li> <b> Method must not be greate then 5 to 6 lines </b> </li>
+  <li> <b> For Notification we have to used jobs ques not simple asynchronus requests </b></li>
   </ul>
   </b>
   
