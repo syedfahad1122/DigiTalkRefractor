@@ -73,7 +73,7 @@ class StoreUserRequest extends FormRequest
   </ul>
   </b>
   
-  #### Bad In LeetCode
+  #### Good In LeetCode
    <ul>
   <li> <b> Events Used which is Good </b> </li>
   <li> <b> Repository Patteren used </b> </li>
