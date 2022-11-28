@@ -7,7 +7,8 @@ use DTApi\Http\Requests;
 use DTApi\Models\Distance;
 use Illuminate\Http\Request;
 use DTApi\Repository\BookingRepository;
-
+use App\Http\Requests\BookingRequests;
+use App\Jobs\PushNotification;
 /**
  * Class BookingController
  * @package DTApi\Http\Controllers
@@ -33,14 +34,14 @@ class BookingController extends Controller
      * @param Request $request
      * @return mixed
      */
-    public function index(Request $request)
+    public function index(Request $reques,BookingRequests $bookingrequests)
     {
         if($user_id = $request->get('user_id')) {
 
             $response = $this->repository->getUsersJobs($user_id);
 
         }
-        elseif($request->__authenticatedUser->user_type == env('ADMIN_ROLE_ID') || $request->__authenticatedUser->user_type == env('SUPERADMIN_ROLE_ID'))
+        elseif($bookingrequests->authorize())
         {
             $response = $this->repository->getAll($request);
         }
@@ -63,11 +64,11 @@ class BookingController extends Controller
      * @param Request $request
      * @return mixed
      */
-    public function store(Request $request)
+    public function store(Request $request,StoreUser $storeUser)
     {
         $data = $request->all();
 
-        $response = $this->repository->store($request->__authenticatedUser, $data);
+        $response = $this->storeUser->handle($request->__authenticatedUser, $data);
 
         return response($response);
 
@@ -78,12 +79,11 @@ class BookingController extends Controller
      * @param Request $request
      * @return mixed
      */
-    public function update($id, Request $request)
+    public function update($id, Request $request, updateJob $updateJob)
     {
         $data = $request->all();
         $cuser = $request->__authenticatedUser;
-        $response = $this->repository->updateJob($id, array_except($data, ['_token', 'submit']), $cuser);
-
+        $response = $this->updateJob->handle($id, array_except($data, ['_token', 'submit']), $cuser);
         return response($response);
     }
 
@@ -120,12 +120,12 @@ class BookingController extends Controller
      * @param Request $request
      * @return mixed
      */
-    public function acceptJob(Request $request)
+    public function acceptJob(Request $request,AcceptJob $acceptJob)
     {
         $data = $request->all();
         $user = $request->__authenticatedUser;
 
-        $response = $this->repository->acceptJob($data, $user);
+        $response = $this->acceptJob->handle($data, $user);
 
         return response($response);
     }
@@ -144,12 +144,12 @@ class BookingController extends Controller
      * @param Request $request
      * @return mixed
      */
-    public function cancelJob(Request $request)
+    public function cancelJob(Request $request,CancelJob $cancelJob)
     {
         $data = $request->all();
         $user = $request->__authenticatedUser;
 
-        $response = $this->repository->cancelJobAjax($data, $user);
+        $response = $this->cancelJob->handle($data, $user);
 
         return response($response);
     }
@@ -158,11 +158,11 @@ class BookingController extends Controller
      * @param Request $request
      * @return mixed
      */
-    public function endJob(Request $request)
+    public function endJob(Request $request,EndJob $endjob)
     {
         $data = $request->all();
 
-        $response = $this->repository->endJob($data);
+        $response = $this->endjob->handle($data);
 
         return response($response);
 
@@ -267,7 +267,8 @@ class BookingController extends Controller
         $data = $request->all();
         $job = $this->repository->find($data['jobid']);
         $job_data = $this->repository->jobToData($job);
-        $this->repository->sendNotificationTranslator($job, $job_data, '*');
+         //sending Notification through Quest Job
+        NewUserNotifyAdminsJob::dispatch($job);
 
         return response(['success' => 'Push sent']);
     }
@@ -284,7 +285,8 @@ class BookingController extends Controller
         $job_data = $this->repository->jobToData($job);
 
         try {
-            $this->repository->sendSMSNotificationToTranslator($job);
+            //sending Notification through Quest Job
+            NewUserNotifyAdminsJob::dispatch($job);;
             return response(['success' => 'SMS sent']);
         } catch (\Exception $e) {
             return response(['success' => $e->getMessage()]);
