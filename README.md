@@ -63,16 +63,26 @@ class StoreUserRequest extends FormRequest
   #### 8.Observers We have to Use Observer TO Send Email as the Eloquent of Booking of User Update It Immediately Fired Events.
   
   ##### Conclusion
-  
+  ### Good To have This
   <ul>
   <li> <b> We Should Make Seperate Service In BookingRepository For Every Action. </b> </li>
   <li> <b> For Every Service there should Be Action Agains Service </b> </li>
   <li> <b> We Should Use Observer For Sending Emails / SMS </b> </li>
-  <li> <b> We Should Use Models Or Defined Every Attribute </b> </li>
   <li> <b> There Should Be A Proper Validation Inside Controller For Against Every action / authorization </b> </li>
+  <li> <b> Method must not be greate then 5 to 6 lines </b> </li>
+  <li> <b> For Notification we have to used jobs ques not simple asynchronus requests </b></li>
+  </ul>
   </b>
   
+  #### Good In LeetCode
+   <ul>
+  <li> <b> Events Used which is Good </b> </li>
+  <li> <b> Repository Patteren used </b> </li>
+  <li> <b> Function name is according to function Behaviour </b> </li>
+ </ul>
   
+  
+  ##### Note Which is mandatory in coding Part Of section we are using random code for refracting like pesoudo code for how we are making multiple events , services  , Ques for notification Thanks.
   
   
   
